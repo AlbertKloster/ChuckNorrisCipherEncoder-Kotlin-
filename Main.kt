@@ -1,11 +1,9 @@
 package chucknorris
 
 fun main() {
-    val converter = Converter()
+    val encryptor = Encryptor()
     println("Input string:")
     val message = readln()
     println("The result:")
-    for (char in message) {
-        println("$char = ${converter.charToBinaryString(char)}")
-    }
+    println(encryptor.encrypt(message))
 }
