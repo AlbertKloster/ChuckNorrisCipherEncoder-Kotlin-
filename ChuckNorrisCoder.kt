@@ -62,7 +62,11 @@ class ChuckNorrisCoder {
     private fun splitBinaryStringTo(binaryString: String): MutableList<String> {
         val split = mutableListOf<String>()
         for (i in binaryString.indices step 7) {
-            split.add(binaryString.substring(i, i + 7))
+            try {
+                split.add(binaryString.substring(i, i + 7))
+            } catch (e: RuntimeException) {
+                throw RuntimeException("Encoded string is not valid.")
+            }
         }
         return split
     }
@@ -80,16 +84,21 @@ class ChuckNorrisCoder {
         val binaryString = StringBuilder()
         val strings = unaryString.split(" ")
         for (i in strings.indices step 2) {
-            binaryString.append(getDigitValue(strings[i]).repeat(getNumberOfDigits(strings[i + 1])))
+            binaryString.append(getDigitValue(strings[i]).repeat(try {
+                getNumberOfDigits(strings[i + 1])
+            } catch (e: RuntimeException) {
+                throw RuntimeException("Encoded string is not valid.")
+            }))
         }
         return binaryString.toString()
     }
 
     private fun getDigitValue(string: String): String {
-        return if (string == "0") "1" else if (string == "00") "0" else throw RuntimeException("Wrong Input String!")
+        return if (string == "0") "1" else if (string == "00") "0" else throw RuntimeException("Encoded string is not valid.")
     }
 
     private fun getNumberOfDigits(string: String): Int {
-        return if (string.matches(Regex("0+"))) string.length else throw RuntimeException("Wrong Input String!")
+        return if (string.matches(Regex("0+"))) string.length else throw RuntimeException("Encoded string is not valid.")
     }
+
 }

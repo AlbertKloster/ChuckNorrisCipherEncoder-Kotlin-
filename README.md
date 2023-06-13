@@ -1,45 +1,90 @@
-# Stage 4/5: Try to understand it
+# Stage 5/5: Cooler than Chuck Norris
 ## Description
-In this stage, you will write a decoder for a cipher. You need to transform the encrypted message into its original format.
+Let's finish our encryption-decryption software by adding a simple user interface. The program asks the user for the desired option (encode/decode/exit), performs it, and all that in a loop until the user wants to finish.
 
 ## Objectives
-Your program receives a string of zeros and spaces and converts it to readable text. You must parse the string to the blocks of zeroes and decode the message the same way as in previous stages but in reversed order.
-
-For example, your program receives ```0 0 00 0000 0 000 00 0000 0 00```. You can split blocks of zeros and group those blocks by two. Then you need to decode these blocks like in the previous stage:
-
-- `0 0 is 1`
-- `00 0000 is 0000`
-- `0 000 is 111`
-- `00 0000 is 0000`
-- `0 00 is 11`
-
-Concatenation of the lines above gives us `10000111000011`.
-
-After that, you need to split the result into blocks of seven symbols (binary form) and convert these blocks to characters. In this case, splitting `10000111000011` by seven symbols gives us two characters — `1000011 1000011` , convert them into characters and the result will be `CC` (`C` is `1000011`).
-
 In this stage, your program should:
 
-Read a string from a console. The input contains a single line of spaces and 0 characters.
-Print The result: line, followed by a line with a decoded message.
-The `Integer.parseInt()` method might be useful at this stage.
+1. Ask users what they want to do, encode a string, decode a string or quit the program with
+`Please input operation (encode/decode/exit):`
+2. If user inputs `encode` as the desired operation, the program should print `Input string:` to the output, read a line and output two lines — `Encoded string:` followed by the encoded string;
+3. If user inputs `decode` as the desired operation, the program should print `Input encoded string:` to the output, read a line and output two lines — `Decoded string:` followed by the actual decoded string;
+4. If user inputs `exit` as the desired operation, the program should say `Bye!` and finish its execution.
 
+The program should be looped to terminate only if the user inputs `exit` as an operation. Otherwise, it should continue asking users `Please input operation (encode/decode/exit):` after each iteration.
+
+Also, let's prevent some incorrect input.
+
+1. If the user misspells the operation name, the program should print out `There is no '<input>' operation`
+2. If the user provided an incorrect encoded message as input to decode, the program should print out appropriate feedback containing `not valid` substring
+
+List of not valid encoded messages:
+
+- The encoded message includes characters other than 0 or spaces;
+- The first block of each sequence is not 0 or 00;
+- The number of blocks is odd;
+- The length of the decoded binary string is not a multiple of 7.
 ## Examples
-The greater-than symbol followed by a space (```>``` ) represents the user input. Note that it's not part of the input.
+The greater-than symbol followed by a space (`> `) represents the user input. Note that it's not part of the input.
 
 ### Example 1:
 ```
+Please input operation (encode/decode/exit):
+> encode
+Input string:
+> Hey!
+Encoded string:
+0 0 00 00 0 0 00 000 0 00 00 00 0 0 00 0 0 00000 00 00 0 0 00 0 0 0 00 0000 0 0
+
+Please input operation (encode/decode/exit):
+> decode
 Input encoded string:
-> 0 0 00 0000 0 000 00 0000 0 00
+> 0 0 00 00 0 0 00 000 0 00 00 00 0 0 00 0 0 00000 00 00 0 0 00 0 0 0 00 0000 0 0
+Decoded string:
+Hey!
 
-The result:
-CC
+Please input operation (encode/decode/exit):
+> exit
+Bye!
 ```
-
 ### Example 2:
 ```
-Input encoded string:
-> 0 0 00 00 0 0 00 000 0 00 00 0 0 0 00 00 0 0 00 0 0 0 00 000000 0 0000 00 000 0 00 00 00 0 00
+Please input operation (encode/decode/exit):
+> smile
+There is no 'smile' operation
 
-The result:
-Hi <3
+Please input operation (encode/decode/exit):
+> decode
+Input encoded string:
+> 0 0 00 00 0 0 00 000
+Decoded string:
+H
+
+Please input operation (encode/decode/exit):
+> decode
+Input encoded string:
+> 0 0 1 00 0 0 1 000
+Encoded string is not valid.
+
+Please input operation (encode/decode/exit):
+> decode
+Input encoded string:
+> 000 0 00 00 0000 0 00 000
+Encoded string is not valid.
+
+Please input operation (encode/decode/exit):
+> decode
+Input encoded string:
+> 0 0 00 00 0 0 00
+Encoded string is not valid.
+
+Please input operation (encode/decode/exit):
+> decode
+Input encoded string:
+> 0 0 00 00 0 0 00 00
+Encoded string is not valid.
+
+Please input operation (encode/decode/exit):
+> exit
+Bye!
 ```
