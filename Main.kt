@@ -1,9 +1,9 @@
 package chucknorris
 
 fun main() {
-    val encryptor = Encryptor()
-    println("Input string:")
-    val message = readln()
+    val chuckNorrisCoder = ChuckNorrisCoder()
+    println("Input encoded string:")
+    val message = readln().trim()
     println("The result:")
-    println(encryptor.encrypt(message))
+    println(chuckNorrisCoder.decode(message))
 }

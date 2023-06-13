@@ -1,56 +1,45 @@
-# Stage 3/5: Chuck Norris encrypts only with zeros
+# Stage 4/5: Try to understand it
 ## Description
-Binary with 0 and 1 is good, but binary with only 0 is even better! This encoding has a name — the Chuck Norris Unary Code.
-
-Let's convert our text into a sequence of zeros and spaces!
+In this stage, you will write a decoder for a cipher. You need to transform the encrypted message into its original format.
 
 ## Objectives
-The encoding principle is simple. The input message consists of ASCII characters (7-bit). You need to transform the text into the sequence of 0 and 1 and use the Chuck Norris technique. The encoded output message consists of blocks of 0. A block is separated from another block by a space.
+Your program receives a string of zeros and spaces and converts it to readable text. You must parse the string to the blocks of zeroes and decode the message the same way as in previous stages but in reversed order.
 
-Two consecutive blocks are used to produce a series of the same value bits (only 1 or0 values):
+For example, your program receives ```0 0 00 0000 0 000 00 0000 0 00```. You can split blocks of zeros and group those blocks by two. Then you need to decode these blocks like in the previous stage:
 
-First block: it is always 0 or 00. If it is 0, then the series contains 1, if not, it contains 0
-Second block: the number of 0 in this block is the number of bits in the series
-Let's take a simple example with a message which consists of only one character C. The C symbol in binary is represented as 1000011, so with Chuck Norris technique this gives:
+- `0 0 is 1`
+- `00 0000 is 0000`
+- `0 000 is 111`
+- `00 0000 is 0000`
+- `0 00 is 11`
 
-- 0 0 (the first series consists of only a single 1);
-- 00 0000 (the second series consists of four 0);
-- 0 00 (the third consists of two 1)
-- So C is coded as: 0 0 00 0000 0 00
+Concatenation of the lines above gives us `10000111000011`.
 
-Make sure, that an encoding of a single character sequence is not separated. For example, 000 should be encoded as 00 000 and not as 00 0 00 0 00 0 or 00 0 00 00 or 00 00 00 0
+After that, you need to split the result into blocks of seven symbols (binary form) and convert these blocks to characters. In this case, splitting `10000111000011` by seven symbols gives us two characters — `1000011 1000011` , convert them into characters and the result will be `CC` (`C` is `1000011`).
 
 In this stage, your program should:
 
-1. Read a string from a console. The input contains a single line.
-2. Print The result: line, followed by a line with an encoded message.
+Read a string from a console. The input contains a single line of spaces and 0 characters.
+Print The result: line, followed by a line with a decoded message.
+The `Integer.parseInt()` method might be useful at this stage.
+
 ## Examples
-The greater-than symbol followed by a space (> ) represents the user input. Note that it's not part of the input.
+The greater-than symbol followed by a space (```>``` ) represents the user input. Note that it's not part of the input.
 
 ### Example 1:
-
 ```
-Input string:
-> C
+Input encoded string:
+> 0 0 00 0000 0 000 00 0000 0 00
 
 The result:
-0 0 00 0000 0 00
+CC
 ```
+
 ### Example 2:
-
 ```
-Input string:
-> CC
+Input encoded string:
+> 0 0 00 00 0 0 00 000 0 00 00 0 0 0 00 00 0 0 00 0 0 0 00 000000 0 0000 00 000 0 00 00 00 0 00
 
 The result:
-0 0 00 0000 0 000 00 0000 0 00
-```
-
-### Example 3:
-```
-Input string:
-> Hi <3
-
-The result:
-0 0 00 00 0 0 00 000 0 00 00 0 0 0 00 00 0 0 00 0 0 0 00 000000 0 0000 00 000 0 00 00 00 0 00
+Hi <3
 ```
